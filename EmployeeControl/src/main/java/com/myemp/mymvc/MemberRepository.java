@@ -65,4 +65,16 @@ public class MemberRepository implements IMemberRepository {
 		
 	}
 	
+	@Override
+	public void updateEmp(EmpVO emp) {
+		
+		String sql="update employees "
+				+ "set empName=?, salary=? "
+				+"where empNum=?";
+		System.out.println(emp.getName()+"이다이당");		  
+		jdbcTemplate.update(sql,emp.getName(),emp.getSalary(),emp.getEmpNum());
+		
+	}
+	
+	
 }

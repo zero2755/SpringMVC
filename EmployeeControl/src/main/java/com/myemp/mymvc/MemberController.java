@@ -1,80 +1,80 @@
 package com.myemp.mymvc;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MemberController {
 	
 	
-	 
-	public static void main(String[] args) {
+	@Autowired
+	MemberService memberService;
+					 
+	@RequestMapping(value="/getEmp")
+	public String getEmp(int empNum,Model model)
+	{	
+		EmpVO emp=memberService.getEmp(empNum);
+		model.addAttribute("emp", emp);
 		
-		AbstractApplicationContext context =
-				new GenericXmlApplicationContext("application-config.xml");
-				 MemberService memberService = context.getBean("memberService", MemberService.class);
-				 
-				 System.out.println("--사원입력---");
-				 EmpVO emp1=new EmpVO();
-				 
-				 emp1.setEmpNum(1);
-				 emp1.setName("철수");
-				 emp1.setSalary(1000);
-				 
-				 EmpVO emp2=new EmpVO();
-				 
-				 emp2.setEmpNum(2);
-				 emp2.setName("영희");
-				 emp2.setSalary(2000);
-				 
-				 EmpVO emp3=new EmpVO();
-				 
-				 emp3.setEmpNum(3);
-				 emp3.setName("수영");
-				 emp3.setSalary(3000);
-				 
-				 System.out.println(emp3.toString());
-				 
-				 try {
-					 memberService.insertEmp(emp1);
-					 System.out.println("insert OK");
-				 }
-				 catch(Exception e) {
-					 System.out.println(e.getMessage());
-				 }
-				 
-				 try {
-					 memberService.insertEmp(emp2);
-					 System.out.println("insert OK");
-				 }
-				 catch(Exception e) {
-					 System.out.println(e.getMessage());
-				 }
-				 
-				 try {
-					 memberService.insertEmp(emp3);
-					 System.out.println("insert OK");
-				 }
-				 catch(Exception e) {
-					 System.out.println(e.getMessage());
-				 }
-				 
-				 System.out.println("---사번1 조회---");
-				 
-				 EmpVO search=memberService.getEmp(1);
-				 search.toString();
-				 
-				 System.out.println("---사번2 삭제---");
-				 
-				 memberService.deleteEmp(2);
-				 
-				 System.out.println("---전체사원조회---");
 		
-				 System.out.println(memberService.getAllEmp());
-				 
-				 
-				 System.out.println("---시스템종료---");
+		return "getEmp";
 	}
+	
+	@RequestMapping(value="/getAllEmp")
+	public String getAllEmp(Model model)
+	{	
+		
+		
+		model.addAttribute("empList", memberService.getAllEmp());
+		
+		return "getAllEmp";
+	}
+	
+	@RequestMapping(value="/insert", method=RequestMethod.GET)
+	 public String insertEmp() {
+		System.out.println("insert 겟");
+	 	return "insertEmp";
+	 }
+	
+	@RequestMapping(value="/insert", method=RequestMethod.POST)
+	public String insertEmp(EmpVO emp) {
+		memberService.insertEmp(emp);
+		System.out.println("insert포스트");
+		return "redirect:/getAllEmp";
+	 }
+	
+	@RequestMapping(value="/delete")
+	public String deleteEmp(int empNum) {
+		memberService.deleteEmp(empNum);
+		System.out.println("삭제완료");
+		return "redirect:/getAllEmp";
+	 }
+	
+	 @RequestMapping(value="/update", method=RequestMethod.GET)
+	 public String updateEmp() {
+	
+		 System.out.println("업뎃겟");
+	   return "updateEmp";
+	 }
+	
+	@RequestMapping(value="/updateGo", method=RequestMethod.POST)
+	public String updateEmp(EmpVO emp) {
+	  memberService.updateEmp(emp);
+	  System.out.println("업뎃POST");
+	 return "redirect:/getAllEmp";
+	 }
+	
+				
+				 
+		
+	
 	
 }

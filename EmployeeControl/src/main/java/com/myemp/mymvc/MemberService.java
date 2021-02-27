@@ -23,6 +23,12 @@ public class MemberService {
 		memberDAO.deleteEmp(empNum);
 	}
 	
+	public void updateEmp(EmpVO emp)
+	{
+		memberDAO.updateEmp(emp);
+	}
+	
+	
 	public EmpVO getEmp(int empNum)
 	{
 		return memberDAO.getEmp(empNum);
@@ -32,6 +38,7 @@ public class MemberService {
 	{
 		return memberDAO.getAllEmp();
 	}
+	
 	
 	
 	

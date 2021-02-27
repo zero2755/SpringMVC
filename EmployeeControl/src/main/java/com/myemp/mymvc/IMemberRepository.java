@@ -13,6 +13,6 @@ public interface IMemberRepository {
 	
 	public void deleteEmp(int empNum);
 	
-	
+	public void updateEmp(EmpVO emp);
 	
 }
